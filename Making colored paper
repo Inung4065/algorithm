@@ -1,0 +1,55 @@
+package logic;
+
+import java.util.*;
+
+public class B2630 {          
+	static int[][] paper;
+	static int count0 = 0;
+	static int count1 = 0;
+	
+	public static void main(String[] args) {
+		Scanner put = new Scanner(System.in);
+		
+		int n = put.nextInt();
+		
+		paper = new int[n][n];
+		for(int i=0; i<n; i++){
+			for(int j=0; j<n; j++) {
+				paper[i][j] = put.nextInt();	
+			}
+		}
+
+		paper_check(0,0,n);
+		
+		System.out.println(count0);
+		System.out.println(count1);
+	}
+	
+	public static void paper_check(int x, int y, int n) {
+		boolean first_count = true;
+		int first_num = 0;
+		
+		for(int i=0; i<n; i++){
+			for(int j=0; j<n; j++) {
+				if(first_count) {
+					first_num = paper[x+i][y+j];
+					first_count = false;
+				} else {
+					if (first_num != paper[x+i][y+j]) {
+						paper_check(x, y, n/2);
+						paper_check(x + n/2, y, n/2);
+						paper_check(x, y + n/2, n/2);
+						paper_check(x + n/2, y + n/2, n/2);
+						return;
+					}
+				}
+			}
+		}
+
+		if (first_num == 0) {
+			count0++;
+		} else {
+			count1++;
+		}
+	}
+}
