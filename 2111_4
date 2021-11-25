@@ -1,0 +1,59 @@
+package logic;
+
+import java.util.Scanner;
+
+public class B1717 {
+	static int[] parent;
+	
+	public static void main(String[] args) {
+		Scanner put = new Scanner(System.in);
+		
+		int n = put.nextInt();
+		int m = put.nextInt();
+		
+		int[][] list = new int[m][3];
+		for (int i=0; i<m; i++) {
+			for(int j=0; j<3; j++) {
+				list[i][j] = put.nextInt();
+			}
+		}
+		
+		parent = new int[n+1];
+		for (int i=1; i<=n; i++) {
+			parent[i] = i;
+		}
+		
+		for (int i=0; i<m; i++) {
+			if (list[i][0] == 0) {
+				union(list[i][1], list[i][2]);
+			} else {
+				if (find(list[i][1]) == find(list[i][2])) {
+					System.out.println("YES");
+				} else {
+					System.out.println("NO");
+				}
+			}
+		}
+	}
+	
+	static int find(int a) {
+		if (parent[a] == a) {
+			return a;
+		}
+		
+		return parent[a] = find(parent[a]);
+	}
+	
+	static void union(int a, int b) {
+		a = find(a);
+		b = find(b);
+		
+		if (a == b) {
+			return;
+		} else if (a > b) {
+			parent[a] = b;
+		} else {
+			parent[b] = a;
+		}
+	}
+}
