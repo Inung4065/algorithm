@@ -1,0 +1,64 @@
+package logic;
+
+import java.util.Scanner;
+
+public class B1018 {
+	static char[][] list;
+	
+	
+	public static void main(String[] args) {
+		Scanner put = new Scanner(System.in);
+		
+		int n = put.nextInt();
+		int m = put.nextInt();
+		
+		list = new char[n][m];
+		for (int i=0; i<n; i++) {
+			String str = put.next();
+			for(int j=0; j<m; j++) {
+				list[i][j] = str.charAt(j);
+			}
+		}
+		
+		int result_min = Integer.MAX_VALUE;
+		
+		for (int i=0; i<n-7; i++) {
+			for(int j=0; j<m-7; j++) {
+				int result = color_reset(i, j);
+				if (result_min > result) {
+					result_min = result; 
+				}
+			}
+		}
+		System.out.println(result_min);
+	}
+	
+	static public int color_reset(int y, int x) {
+		int count_b = 0;
+		int count_w = 0;
+		int count = 0;
+		
+		for (int i=y; i<y+8; i++) {
+			for (int j=x; j<x+8; j++) {
+				if (count % 2 == 0) {
+					if ('W' == list[i][j]) {
+						count_b++;
+					} else {
+						count_w++;
+					}
+				} else {
+					if ('W' == list[i][j]) {
+						count_w++;
+					} else {
+						count_b++;
+					}
+				}
+				count++;
+			}
+			count++;
+		}
+		
+		return count_b > count_w ? count_w : count_b;
+	}
+
+}
